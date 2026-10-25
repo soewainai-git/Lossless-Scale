@@ -1,0 +1,17 @@
+name: build
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Compile
+        shell: cmd
+        run: cl /nologo /std:c++17 /EHsc /O2 /W3 /DUNICODE /D_UNICODE lowscale.cpp /Fe:lowscale.exe /link /SUBSYSTEM:CONSOLE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lowscale
+          path: lowscale.exe
